@@ -10,5 +10,4 @@ class MakeAction extends Action
     {
         echo "make";
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace ostark\Promter;
+namespace ostark\Prompter;
 
-use ostark\Promter\Actions\HelpAction;
-use ostark\Promter\Actions\MakeAction;
+use ostark\Prompter\Actions\HelpAction;
+use ostark\Prompter\Actions\MakeAction;
 use ostark\Yii2ArtisanBridge\ActionGroup;
 use ostark\Yii2ArtisanBridge\Bridge;
 
@@ -32,7 +32,7 @@ class Plugin extends \craft\base\Plugin
 
         // Register console commands
         Bridge::registerGroup(
-            (new ActionGroup('promter', 'Craft IDE helper'))
+            (new ActionGroup('prompter', 'Craft IDE helper'))
                 ->setActions($actions)
                 ->setDefaultAction('make')
                 ->setOptions(

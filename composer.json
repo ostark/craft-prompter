@@ -32,7 +32,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ostark\\Promter\\": "src/"
+      "ostark\\Prompter\\": "src/"
     }
   },
   "scripts": {
@@ -42,8 +42,8 @@
     "test": ["@stan", "@sniff"]
   },
   "extra": {
-    "name": "Promter",
-    "handle": "promter",
+    "name": "Prompter",
+    "handle": "prompter",
     "hasCpSettings": false,
     "hasCpSection": false,
     "changelogUrl": "https://raw.githubusercontent.com/ostark/craft-prompter/master/CHANGELOG.md"
