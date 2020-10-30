@@ -1,0 +1,8 @@
+<?php
+
+/**
+ {{ docblock }}
+ */
+class {{ className }} {
+
+}
