@@ -9,4 +9,5 @@ class Settings extends Model
     public $twig;
     public $phpStormMeta;
     public $models;
+    public $generateOnChange = false;
 }
