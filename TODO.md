@@ -3,10 +3,11 @@
 
 ## Repositories
 
+* entries https://craftcms.com/docs/3.x/entries.html#querying-entries
 * assets https://craftcms.com/docs/3.x/assets.html#querying-assets
 * categories https://craftcms.com/docs/3.x/categories.html#querying-categories
-* entries https://craftcms.com/docs/3.x/entries.html#querying-entries
 * globalSets https://craftcms.com/docs/3.x/globals.html#querying-globals
+
 * matrixBlocks https://craftcms.com/docs/3.x/matrix-blocks.html#querying-matrix-blocks
 * (tags) https://craftcms.com/docs/3.x/tags.html#querying-tags
 * (users) https://craftcms.com/docs/3.x/users.html#querying-users

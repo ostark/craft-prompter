@@ -1,0 +1,22 @@
+<?php
+
+namespace PHPSTORM_META {
+
+    // Element queries with specific filters
+
+    // Possible Entry section handles
+    expectedArguments(\craft\elements\db\EntryQuery::section(), 0, 'sec1', 'sec2', 'sec3');
+
+    // Possible Entry type handles
+    expectedArguments(\craft\elements\db\EntryQuery::type(), 0, 'type1', 'type2', 'typ3a', 'typ3b', 'type3c');
+
+    // Possible Volume handles
+    expectedArguments(\craft\elements\db\AssetQuery::volume(), 0, 'vol1', 'vol2');
+
+    // Possible Globalset handles
+    expectedArguments(\craft\elements\db\GlobalsetQuery::handle(), 0, 'set1', 'set2');
+
+    // Possible Category group handles
+    expectedArguments(\craft\elements\db\CategoryQuery::group(), 0, 'cat1', 'cat2');
+
+}

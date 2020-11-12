@@ -1,0 +1,23 @@
+// Typehint the main Entry
+<fg=yellow>{# @var entry PestEntry #}</>           
+// entry.oneField
+// entry.anotherField
+
+// Typehint Entry queries
+<fg=yellow>{# @var pestQuery PestEntryQuery #}</>  
+
+<fg=yellow>         
+{% set <fg=blue>pestQuery</> = <fg=blue>craft.entries().type('pest')</> %}
+
+{% for <fg=blue>pest</> in <fg=blue>pestQuery.all()</> %}
+      
+      <fg=default>// pest.oneField</>
+      <fg=default>// pest.anotherField</>
+
+      {% for <fg=blue>matrix</> in <fg=blue>pest.yourMatrixField</> %}
+          <fg=default>// matrix.oneMatrixField</>
+          <fg=default>// matrix.anotherMatrixField</>
+      {% endfor %}
+      
+{% endfor %}
+</>

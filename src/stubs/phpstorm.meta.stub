@@ -1,0 +1,22 @@
+<?php
+
+namespace PHPSTORM_META {
+
+    // Element queries with specific filters
+
+    // Possible Entry section handles
+    expectedArguments(\craft\elements\db\EntryQuery::section(), 0, {{ section_csv }});
+
+    // Possible Entry type handles
+    expectedArguments(\craft\elements\db\EntryQuery::type(), 0, {{ type_csv }});
+
+    // Possible Volume handles
+    expectedArguments(\craft\elements\db\AssetQuery::volume(), 0, {{ volume_csv }});
+
+    // Possible Globalset handles
+    expectedArguments(\craft\elements\db\GlobalsetQuery::handle(), 0, {{ globalset_csv }});
+
+    // Possible Category group handles
+    expectedArguments(\craft\elements\db\CategoryQuery::group(), 0, {{ category_csv }});
+
+}

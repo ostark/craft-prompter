@@ -1,0 +1,18 @@
+
+// Typehint Entry queries
+<fg=yellow>
+/** @var $pestQuery PestEntryQuery */
+<fg=blue>$pestQuery</> = <fg=blue>\craft\elements\Entry::find()->type('pest');</>
+
+foreach(<fg=blue>$pestQuery->all()</> as <fg=blue>$pest</>) {
+      
+    <fg=default>// $pest->oneField</>
+    <fg=default>// $pest->anotherField</>
+
+    foreach(<fg=blue>$pest->someMatrixField</> as <fg=blue>$matrix</>) {
+      
+        <fg=default>// $matrix->oneField</>
+        <fg=default>// $matrix->anotherField</>
+    }          
+}
+</>

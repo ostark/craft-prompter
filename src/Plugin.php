@@ -5,6 +5,7 @@ namespace ostark\Prompter;
 use Craft;
 use craft\services\ProjectConfig;
 use ostark\Prompter\Actions\HelpAction;
+use ostark\Prompter\Actions\HintAction;
 use ostark\Prompter\Actions\MakeAction;
 use ostark\Prompter\Services\ElementModelWriter;
 use ostark\Prompter\Services\FileWriter;
@@ -16,6 +17,7 @@ use yii\base\Event;
 
 /**
  * Prompter
+ *
  * @method Settings getSettings()
  */
 class Plugin extends \craft\base\Plugin
@@ -23,15 +25,20 @@ class Plugin extends \craft\base\Plugin
     /**
      * @var FileWriter[]
      */
-    private $fileWriters;
+    private $fileWriters = [];
 
 
     /**
      * Initialize Plugin
      */
-    public function init()
+    public function init() : void
     {
         parent::init();
+
+        // No need to look further
+        if (Craft::$app->getRequest()->isSiteRequest) {
+            return;
+        }
 
         $this->registerServices();
         $this->registerConsoleCommands();
@@ -41,18 +48,19 @@ class Plugin extends \craft\base\Plugin
     /**
      * Register services if needed
      */
-    private function registerServices()
+    private function registerServices(): void
     {
-        // Nope
-        if (Craft::$app->getRequest()->isSiteRequest) {
-            return;
+        // Resolve the specific FileWriter from the containers with all dependencies
+        // and collect them so we can pass them easily to the event handler
+        if ($this->getSettings()->generateOnChange || Craft::$app->getRequest()->isConsoleRequest) {
+            $this->fileWriters[] = \Craft::createObject(ElementModelWriter::class);
+            $this->fileWriters[] = \Craft::createObject(PhpstormMetaWriter::class);
+            $this->fileWriters[] = \Craft::createObject(TwigExtensionWriter::class);
         }
 
-        if ($this->getSettings()->generateOnChange || Craft::$app->getRequest()->isConsoleRequest) {
-            $this->fileWriters[] = $this->get(ElementModelWriter::class);
-            $this->fileWriters[] = $this->get(PhpstormMetaWriter::class);
-            $this->fileWriters[] = $this->get(TwigExtensionWriter::class);
-        }
+        // Register our Settings Model in the container, so we can
+        // inject it everywhere filled with config data
+        $this->set(Settings::class, fn () => $this->getSettings());
     }
 
 
@@ -61,9 +69,14 @@ class Plugin extends \craft\base\Plugin
      */
     private function registerConsoleCommands(): void
     {
+        // Nope
+        if (!Craft::$app->getRequest()->isConsoleRequest) {
+            return;
+        }
+
         $actions = [
             'make' => MakeAction::class,
-            'help' => HelpAction::class
+            'hint' => HintAction::class
         ];
 
         // Register console commands
@@ -72,7 +85,7 @@ class Plugin extends \craft\base\Plugin
                 ->setActions($actions)
                 ->setDefaultAction('make')
                 ->setOptions(
-                    ['v' => 'verbose']
+                    ['v' => 'verbose', 'f' => 'format']
                 )
         );
     }
@@ -82,11 +95,6 @@ class Plugin extends \craft\base\Plugin
      */
     private function registerOnChangeEventHandler(): void
     {
-        // Nothing to do
-        if (!count($this->fileWriters)) {
-            return;
-        }
-
         Event::on(
             ProjectConfig::class,
             ProjectConfig::EVENT_AFTER_APPLY_CHANGES,

@@ -1,8 +1,0 @@
-<?php
-
-/**
-{{ docblock }}
- */
-class {{ className }} extends \craft\web\twig\variables\CraftVariable {
-
-}

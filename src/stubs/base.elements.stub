@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * Fake Element classes that do NOT extend from craft\base\Element,
+ * to prevent @mixin \craft\behaviors\CustomFieldBehavior which includes all fields
+ */
+
+use craft\base\ElementInterface;
+use craft\behaviors\FieldLayoutBehavior;
+use craft\elements\db\ElementQueryInterface;
+use craft\models\CategoryGroup;
+use craft\models\EntryType;
+use craft\models\MatrixBlockType;
+use craft\models\Section;
+use craft\models\Site;
+use craft\models\TagGroup;
+use craft\base\VolumeInterface;
+use craft\models\UserGroup;
+use craft\models\VolumeFolder;
+use Twig\Markup;
+
+/**
+ * Asset represents an asset element.
+ *
+ * @property int|float|null $height the image height
+ * @property int|float|null $width the image width
+ * @property int|null $volumeId the volume ID
+ * @property string|array|null $focalPoint the focal point represented as an array with `x` and `y` keys, or null
+ * @property-read Markup|null $img an `<img>` tag based on this asset
+ * @property-read VolumeFolder $folder the asset’s volume folder
+ * @property-read VolumeInterface $volume the asset’s volume
+ * @property-read bool $hasFocalPoint whether a user-defined focal point is set on the asset
+ * @property-read string $extension the file extension
+ * @property-read string $path the asset's path in the volume
+ * @property-read string|null $mimeType the file’s MIME type, if it can be determined
+ */
+class PlainAsset {}
+
+
+/**
+ * Entry represents an entry element.
+ *
+ * @property PlainUser|null $author the entry's author
+ * @property Section $section the entry's section
+ * @property EntryType $type the entry type
+ */
+class PlainEntry {}
+
+/**
+ * MatrixBlock represents a matrix block element.
+ *
+ * @property ElementInterface $owner the owner
+ * @property MatrixBlockType $type The block type
+ */
+class PlainMatrixBlock {}
+
+/**
+ * Category represents a category element.
+ *
+ * @property CategoryGroup $group the category's group
+ */
+class PlainCategory {}
+
+/**
+ * Tag represents a tag element.
+ *
+ * @property TagGroup $group the tag's group
+ */
+class PlainTag {}
+
+/**
+ * GlobalSet represents a global set element.
+ *
+ * @mixin FieldLayoutBehavior
+ */
+class PlainGlobalset {}
+
+/**
+ * User represents a user element.
+ *
+ * @property \DateTime|null $cooldownEndTime the time when the user will be over their cooldown period
+ * @property string|null $friendlyName the user's first name or username
+ * @property string|null $fullName the user's full name
+ * @property UserGroup[] $groups the user's groups
+ * @property bool $isCurrent whether this is the current logged-in user
+ * @property string $name the user's full name or username
+ * @property PlainAsset|null $photo the user's photo
+ * @property array $preferences the user’s preferences
+ * @property string|null $preferredLanguage the user’s preferred language
+ * @property string|null $preferredLocale the user’s preferred formatting locale
+ */
+class PlainUser {}
+
+
+/**
+ * ElementQuery represents a SELECT SQL statement for elements in a way that is independent of DBMS.
+ *
+ * @property string|Site $site The site or site handle that the elements should be returned in
+ *
+ * @mixin ElementQueryInterface
+ *
+ * @see \craft\elements\db\ElementQuery
+ */
+class PlainElementQuery {}

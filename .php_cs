@@ -1,11 +1,17 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('vendor/')
-    ->in(__DIR__);
+    ->exclude(['vendor'])
+    ->in(__DIR__)
+    ->name('*.php')
+    ->ignoreDotFiles(true)
+    ->ignoreVCS(true);
 
 $rules = [
-    '@PSR12' => true
+    '@PSR2' => true,
+    'array_syntax' => ['syntax' => 'short'],
+    'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+    'no_unused_imports' => true,
 ];
 
 return PhpCsFixer\Config::create()

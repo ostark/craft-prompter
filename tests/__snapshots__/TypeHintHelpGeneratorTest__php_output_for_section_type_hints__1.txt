@@ -1,0 +1,16 @@
+
+<fg=yellow>
+/** @var query Sec1SectionQuery */           
+<fg=blue>$query</> = <fg=blue>\craft\elements\Entry::find()->section('sec1');</>
+<fg=default>// $query->all() or $query->one()</>
+</>
+<fg=yellow>
+/** @var query Sec2SectionQuery */           
+<fg=blue>$query</> = <fg=blue>\craft\elements\Entry::find()->section('sec2');</>
+<fg=default>// $query->all() or $query->one()</>
+</>
+<fg=yellow>
+/** @var query Sec3SectionQuery */           
+<fg=blue>$query</> = <fg=blue>\craft\elements\Entry::find()->section('sec3');</>
+<fg=default>// $query->all() or $query->one()</>
+</>
