@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Services\TypeHintOutput;
 
 interface TypeHintOutput
 {
     public const ENTRY_TYPE_QUERY = 'type';
+
     public const ENTRY_SECTION_QUERY = 'section';
+
     public const ASSET_QUERY = 'asset';
 
     public function fullTemplate(string $handle, string $queryClass, string $elementClass): string;

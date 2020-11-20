@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Actions;
 
 use ostark\Prompter\Services\ElementModelWriter;
@@ -14,11 +16,15 @@ use yii\console\ExitCode;
 class MakeAction extends Action
 {
     private const ICON_SUCCESS = '👌';
+
     private const ICON_ERROR = '💥';
 
     private Settings $settings;
+
     private FileWriter $modelWriter;
+
     private FileWriter $metaWriter;
+
     private FileWriter $twigWriter;
 
     public function __construct(
@@ -31,6 +37,7 @@ class MakeAction extends Action
         $config = []
     ) {
         parent::__construct($id, $controller, $config);
+
         $this->modelWriter = $model;
         $this->metaWriter = $meta;
         $this->twigWriter = $twig;
@@ -42,17 +49,23 @@ class MakeAction extends Action
      */
     public function run(): int
     {
-        if (!$this->confirm('Sure ... ?')) {
+        if (! $this->confirm('Sure ... ?')) {
             return ExitCode::NOINPUT;
         }
 
-        $icon = $this->modelWriter->write($this->settings->path) ? self::ICON_SUCCESS : self::ICON_ERROR;
+        $icon = $this->modelWriter->write(
+            $this->settings->path
+        ) ? self::ICON_SUCCESS : self::ICON_ERROR;
         $this->line("* Models: $icon");
 
-        $icon = $this->twigWriter->write($this->settings->path) ? self::ICON_SUCCESS : self::ICON_ERROR;
+        $icon = $this->twigWriter->write(
+            $this->settings->path
+        ) ? self::ICON_SUCCESS : self::ICON_ERROR;
         $this->line("* Twig: $icon");
 
-        $icon = $this->metaWriter->write($this->settings->path) ? self::ICON_SUCCESS : self::ICON_ERROR;
+        $icon = $this->metaWriter->write(
+            $this->settings->path
+        ) ? self::ICON_SUCCESS : self::ICON_ERROR;
         $this->line("* Meta: $icon");
 
         return ExitCode::OK;

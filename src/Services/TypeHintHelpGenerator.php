@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace ostark\Prompter\Services;
-
 
 use ostark\Prompter\Repositories\ElementContextRepository;
 use ostark\Prompter\Repositories\FieldLayout\AssetType;
@@ -15,6 +15,7 @@ use ostark\Prompter\Services\TypeHintOutput\TypeHintOutput;
 class TypeHintHelpGenerator
 {
     private ElementContextRepository $context;
+
     private TypeHintOutput $output;
 
     public function __construct(ElementContextRepository $context)
@@ -31,7 +32,7 @@ class TypeHintHelpGenerator
         return $this;
     }
 
-    public function entry(string $handle = null): string
+    public function entry(?string $handle = null): string
     {
         // Full example
         if ($handle) {
@@ -97,5 +98,4 @@ class TypeHintHelpGenerator
         }
         return $output;
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories\FieldLayout;
 
 class GlobalsetType extends LayoutType

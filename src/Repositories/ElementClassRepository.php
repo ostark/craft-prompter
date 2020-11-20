@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories;
 
 class ElementClassRepository
@@ -9,7 +11,6 @@ class ElementClassRepository
      */
     public function fakeHints(): array
     {
-
         $getImg = ' * @method Twig\Markup getImg($transform = null, array $sizes = null)';
         $type = ' * @method static type(string $value)';
         $section = ' * @method static section(string $value)';
@@ -18,7 +19,7 @@ class ElementClassRepository
         $handle = ' * @method static handle(string $value)';
         $owner = ' * @method static owner(ElementInterface $owner)';
 
-        $res =  [
+        return [
             'PlainAsset' => [$getImg, $volume],
             'PlainEntry' => [$type, $section],
             'PlainGlobalset' => [$handle],
@@ -26,7 +27,5 @@ class ElementClassRepository
             'PlainTag' => [$group],
             'PlainMatrixBlock' => [$owner, $type],
         ];
-
-        return $res;
     }
 }

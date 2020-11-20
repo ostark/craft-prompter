@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter;
 
 use craft\base\Model;
@@ -7,6 +9,7 @@ use craft\base\Model;
 class Settings extends Model
 {
     public bool $generateOnChange = false;
+
     public string $path;
 
     public function __construct($config = [])

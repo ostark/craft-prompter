@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories;
 
 use craft\services\Matrix;
 use ostark\Prompter\Repositories\FieldLayout\BlockType;
+use yii\base\InvalidConfigException;
 
 class MatrixBlocksRepository
 {
+    protected static array $blockTypes = [];
+
     /**
      * @var Matrix
      */
     private $matrixService;
-
-    protected static array $blockTypes = [];
 
     public function __construct(Matrix $matrixService)
     {
@@ -24,7 +27,7 @@ class MatrixBlocksRepository
      *
      * @return FieldLayout\BlockType[]
      *
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function indexedByHandle(): array
     {
@@ -45,7 +48,7 @@ class MatrixBlocksRepository
      *
      * @return FieldLayout\BlockType[]
      *
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function all(): array
     {

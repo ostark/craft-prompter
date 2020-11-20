@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Actions;
 
 use ostark\Prompter\Services\TypeHintHelpGenerator;
@@ -13,7 +15,9 @@ class HintAction extends Action
     public const FORMAT_OPTIONS = ['twig', 'php'];
 
     public $format = 'twig';
+
     private Settings $settings;
+
     private TypeHintHelpGenerator $hints;
 
     public function __construct(
@@ -24,10 +28,11 @@ class HintAction extends Action
         $config = []
     ) {
         parent::__construct($id, $controller, $config);
+
         $this->settings = $settings;
         $this->hints = $hints;
 
-        if ( ! in_array($this->format, self::FORMAT_OPTIONS)) {
+        if (! in_array($this->format, self::FORMAT_OPTIONS, true)) {
             $this->format = 'twig';
         }
     }
@@ -38,7 +43,7 @@ class HintAction extends Action
      * @param string|null $type Type like 'entry', 'asset' or 'globalset'
      * @param string|null $entryTypeHandle Entry handle
      */
-    public function run(string $type = null, string $entryTypeHandle = null): int
+    public function run(?string $type = null, ?string $entryTypeHandle = null): int
     {
         $this->hints->setOutputFormat($this->format);
 
@@ -72,7 +77,6 @@ class HintAction extends Action
         $this->line('./craft <fg=yellow>prompter/hint</> <fg=cyan>section</>');
         $this->line('./craft <fg=yellow>prompter/hint</> <fg=cyan>asset</>');
         $this->line('./craft <fg=yellow>prompter/hint</> <fg=cyan>globalset</>');
-        $this->line(PHP_EOL . "Optional: --format=" . implode('|', self::FORMAT_OPTIONS));
+        $this->line(PHP_EOL . 'Optional: --format=' . implode('|', self::FORMAT_OPTIONS));
     }
-
 }

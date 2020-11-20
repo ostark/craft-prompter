@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Services\TypeHintOutput;
 
 class Php implements TypeHintOutput
@@ -7,12 +9,12 @@ class Php implements TypeHintOutput
     public const QUERIES = [
         self::ENTRY_TYPE_QUERY => 'Entry::find()->type',
         self::ENTRY_SECTION_QUERY => 'Entry::find()->section',
-        self::ASSET_QUERY => 'Asset::find()->volume'
+        self::ASSET_QUERY => 'Asset::find()->volume',
     ];
 
     public function fullTemplate(string $handle, string $queryClass, string $elementClass): string
     {
-        $var = "$" . $handle . "Query";
+        $var = '$' . $handle . 'Query';
         return <<<PHP
             
             // Typehint Entry queries
@@ -36,8 +38,11 @@ class Php implements TypeHintOutput
             PHP;
     }
 
-    public function listTemplate(string $handle, string $queryClass, string $query = self::ENTRY_TYPE_QUERY): string
-    {
+    public function listTemplate(
+        string $handle,
+        string $queryClass,
+        string $query = self::ENTRY_TYPE_QUERY
+    ): string {
         $queryType = self::QUERIES[$query];
 
         return <<<PHP

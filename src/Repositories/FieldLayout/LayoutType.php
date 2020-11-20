@@ -1,8 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories\FieldLayout;
 
+use craft\base\Element;
+use InvalidArgumentException;
 use ostark\Prompter\ClassHelper;
+use ReflectionClass;
 
 abstract class LayoutType
 {
@@ -25,26 +30,7 @@ abstract class LayoutType
     {
         $this->handle = $handle;
         $this->fields = $this->validateFields($fields);
-        $this->type = (new \ReflectionClass($this))->getShortName();
-    }
-
-    protected function validateFields(array $fields): array
-    {
-        if (count($fields) === 0) {
-            return [];
-        }
-
-        $name = get_class($this);
-
-        foreach ($fields as $fieldHandle => $class) {
-            if (!is_string($fieldHandle)) {
-                throw new \InvalidArgumentException(
-                    "String expected in [$name], handle [{$this->handle}], type: [" . gettype($fieldHandle) . "]"
-                );
-            }
-        }
-
-        return $fields;
+        $this->type = (new ReflectionClass($this))->getShortName();
     }
 
     /**
@@ -68,6 +54,27 @@ abstract class LayoutType
      */
     public function getElementBaseClass(): string
     {
-        return \craft\base\Element::class;
+        return Element::class;
+    }
+
+    protected function validateFields(array $fields): array
+    {
+        if (count($fields) === 0) {
+            return [];
+        }
+
+        $name = static::class;
+
+        foreach ($fields as $fieldHandle => $class) {
+            if (! is_string($fieldHandle)) {
+                throw new InvalidArgumentException(
+                    "String expected in [$name], handle [{$this->handle}], type: [" . gettype(
+                        $fieldHandle
+                    ) . ']'
+                );
+            }
+        }
+
+        return $fields;
     }
 }

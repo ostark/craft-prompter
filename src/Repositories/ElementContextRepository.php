@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories;
 
 use craft\records\CategoryGroup as CategoryGroupRecord;
@@ -19,7 +21,6 @@ class ElementContextRepository
         return array_map(fn ($item) => $item->handle, $records);
     }
 
-
     public function getTypeHandles(): array
     {
         /** @var EntryTypeRecord[] $records */
@@ -28,7 +29,6 @@ class ElementContextRepository
         // handles
         return array_map(fn ($item) => $item->handle, $records);
     }
-
 
     public function getSectionHandlesWithTypeHandles(): array
     {
@@ -43,7 +43,6 @@ class ElementContextRepository
         return $handles;
     }
 
-
     public function getVolumeHandles(): array
     {
         /** @var VolumeRecord[] $records */
@@ -53,7 +52,6 @@ class ElementContextRepository
         return array_map(static fn ($item) => $item->handle, $records);
     }
 
-
     public function getCategoryGroupHandles(): array
     {
         /** @var CategoryGroupRecord[] $records */
@@ -62,7 +60,6 @@ class ElementContextRepository
         // handles
         return array_map(static fn ($item) => $item->handle, $records);
     }
-
 
     public function getGlobalSetHandles(): array
     {

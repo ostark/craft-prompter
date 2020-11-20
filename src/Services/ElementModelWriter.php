@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Services;
 
 use ostark\Prompter\ClassHelper;
@@ -14,11 +16,14 @@ class ElementModelWriter implements FileWriter
     public const TARGET_FILE = '.craft.prompter.model.php';
 
     private FieldLayoutsRepository $fieldLayouts;
-    private ElementContextRepository $context;
-    private MatrixBlocksRepository $matrix;
-    private ElementClassRepository $elementClass;
-    private string $template;
 
+    private ElementContextRepository $context;
+
+    private MatrixBlocksRepository $matrix;
+
+    private ElementClassRepository $elementClass;
+
+    private string $template;
 
     public function __construct(
         FieldLayoutsRepository $fieldLayouts,
@@ -31,11 +36,6 @@ class ElementModelWriter implements FileWriter
         $this->matrix = $matrix;
         $this->elementClass = $elementClass;
         $this->template = $this->getClassTemplate();
-    }
-
-    private function getClassTemplate(): string
-    {
-        return file_get_contents(__DIR__ . '/../stubs/' . self::CLASS_STUB);
     }
 
     public function write(string $path): bool
@@ -66,15 +66,17 @@ class ElementModelWriter implements FileWriter
             );
         }
 
-
         // Section Query classes for entries
         foreach ($sectionsAndTypes as $section => $entry) {
             // Turn Entry handle into Class name
             $entryClasses = array_map(
-                static fn($handle) => ClassHelper::elementClass($handle, EntryType::class),
+                static fn ($handle) => ClassHelper::elementClass($handle, EntryType::class),
                 $entry
             );
-            $parts[] = $this->renderQueryClassTemplate(ucfirst($section) . 'SectionQuery', $entryClasses);
+            $parts[] = $this->renderQueryClassTemplate(
+                ucfirst($section) . 'SectionQuery',
+                $entryClasses
+            );
         }
 
         // Matrix block classes with fields
@@ -90,30 +92,48 @@ class ElementModelWriter implements FileWriter
         return file_put_contents($target, implode(PHP_EOL, $parts));
     }
 
+    private function getClassTemplate(): string
+    {
+        return file_get_contents(__DIR__ . '/../stubs/' . self::CLASS_STUB);
+    }
+
     private function renderPlainElementClasses(): string
     {
         return file_get_contents(__DIR__ . '/../stubs/' . self::PLAIN_ELEMENTS_FILE);
     }
 
-    private function renderClassTemplateWithProperties(string $class, string $baseClass, array $properties): string
-    {
+    private function renderClassTemplateWithProperties(
+        string $class,
+        string $baseClass,
+        array $properties
+    ): string {
         $template = str_replace('{{ class }}', $class, $this->template);
         $template = str_replace('{{ baseClass }}', $baseClass, $template);
-        $template = str_replace('{{ docblock }}', ClassHelper::propertiesDocBlock($properties), $template);
-
-        return $template;
+        return str_replace(
+            '{{ docblock }}',
+            ClassHelper::propertiesDocBlock($properties),
+            $template
+        );
     }
 
-    private function renderQueryClassTemplate(string $className, array $types, string $baseClass = 'PlainElementQuery', string $rawDocBlock = ''): string
-    {
+    private function renderQueryClassTemplate(
+        string $className,
+        array $types,
+        string $baseClass = 'PlainElementQuery',
+        string $rawDocBlock = ''
+    ): string {
         $methods = [
-            "one(\$db = null)" => $types,
-            "all(\$db = null)" => array_map(static fn($type) => $type . "[]", $types)
+            'one($db = null)' => $types,
+            'all($db = null)' => array_map(static fn ($type) => $type . '[]', $types),
         ];
 
         $template = str_replace('{{ class }}', $className, $this->template);
         $template = str_replace('{{ baseClass }}', $baseClass, $template);
-        $template = str_replace('{{ docblock }}', ClassHelper::methodsDocBlock($methods) . $rawDocBlock, $template);
+        $template = str_replace(
+            '{{ docblock }}',
+            ClassHelper::methodsDocBlock($methods) . $rawDocBlock,
+            $template
+        );
 
         return $template;
     }
@@ -124,7 +144,7 @@ class ElementModelWriter implements FileWriter
 
         foreach ($this->elementClass->fakeHints() as $class => $hints) {
             $parts[] = $this->renderQueryClassTemplate(
-                $class.'Query',
+                $class . 'Query',
                 [$class],
                 'PlainElementQuery',
                 PHP_EOL . implode(PHP_EOL, $hints)

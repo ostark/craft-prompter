@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Services\TypeHintOutput;
 
 class Twig implements TypeHintOutput
@@ -7,12 +9,12 @@ class Twig implements TypeHintOutput
     public const QUERIES = [
         self::ENTRY_TYPE_QUERY => 'entries().type',
         self::ENTRY_SECTION_QUERY => 'entries().section',
-        self::ASSET_QUERY => 'assets().volume'
+        self::ASSET_QUERY => 'assets().volume',
     ];
 
     public function fullTemplate(string $handle, string $queryClass, string $elementClass): string
     {
-        $var = $handle . "Query";
+        $var = $handle . 'Query';
         return <<<TWIG
             // Typehint the main Entry
             <fg=yellow>{# @var entry $elementClass #}</>           
@@ -41,8 +43,11 @@ class Twig implements TypeHintOutput
             TWIG;
     }
 
-    public function listTemplate(string $handle, string $queryClass, string $query = self::ENTRY_TYPE_QUERY): string
-    {
+    public function listTemplate(
+        string $handle,
+        string $queryClass,
+        string $query = self::ENTRY_TYPE_QUERY
+    ): string {
         $queryType = self::QUERIES[$query];
 
         return <<<TWIG

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter;
 
 /**
@@ -11,12 +13,6 @@ class ClassHelper
     {
         $elementType = self::stripNamespace($elementType);
         return ucfirst($handle) . str_replace('Type', '', $elementType);
-    }
-
-    private static function stripNamespace(string $class): string
-    {
-        $namespaceParts = explode('\\', $class);
-        return $namespaceParts[array_key_last($namespaceParts)];
     }
 
     public static function elementQueryClass(string $handle, string $elementType): string
@@ -38,8 +34,14 @@ class ClassHelper
     {
         $docBlock = '';
         foreach ($methods as $method => $types) {
-            $docBlock .= " * @method " . implode('|', (array) $types) . " $method" . PHP_EOL;
+            $docBlock .= ' * @method ' . implode('|', (array) $types) . " $method" . PHP_EOL;
         }
         return rtrim($docBlock);
+    }
+
+    private static function stripNamespace(string $class): string
+    {
+        $namespaceParts = explode('\\', $class);
+        return $namespaceParts[array_key_last($namespaceParts)];
     }
 }

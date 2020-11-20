@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories;
 
 use craft\base\FieldInterface;
-use craft\fields\BaseRelationField;
 use craft\records\CategoryGroup as CategoryGroupRecord;
 use craft\records\EntryType as EntryTypeRecord;
 use craft\records\FieldLayout as FieldLayoutRecord;
 use craft\records\GlobalSet as GlobalSetRecord;
 use craft\records\Volume as VolumeRecord;
-use ostark\Prompter\ClassHelper;
 use ostark\Prompter\Repositories\FieldLayout\AssetType;
 use ostark\Prompter\Repositories\FieldLayout\CategoryType;
 use ostark\Prompter\Repositories\FieldLayout\EntryType;
 use ostark\Prompter\Repositories\FieldLayout\GlobalsetType;
 use ostark\Prompter\Repositories\FieldLayout\LayoutType;
-use yii\helpers\Inflector;
+use ReflectionClass;
+use Throwable;
 
 class FieldLayoutsRepository
 {
@@ -83,10 +84,12 @@ class FieldLayoutsRepository
     protected function getValueType(string $fieldClassName): string
     {
         try {
-            if ((new \ReflectionClass($fieldClassName))->implementsInterface(FieldInterface::class)) {
+            if ((new ReflectionClass($fieldClassName))->implementsInterface(
+                FieldInterface::class
+            )) {
                 return call_user_func([$fieldClassName, 'valueType']);
             }
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
         }
 
         return $fieldClassName;

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter;
 
 use Craft;
 use craft\services\ProjectConfig;
-use ostark\Prompter\Actions\HelpAction;
 use ostark\Prompter\Actions\HintAction;
 use ostark\Prompter\Actions\MakeAction;
 use ostark\Prompter\Services\ElementModelWriter;
@@ -27,11 +28,10 @@ class Plugin extends \craft\base\Plugin
      */
     private $fileWriters = [];
 
-
     /**
      * Initialize Plugin
      */
-    public function init() : void
+    public function init(): void
     {
         parent::init();
 
@@ -45,6 +45,11 @@ class Plugin extends \craft\base\Plugin
         $this->registerOnChangeEventHandler();
     }
 
+    protected function createSettingsModel(): Settings
+    {
+        return new Settings();
+    }
+
     /**
      * Register services if needed
      */
@@ -53,9 +58,9 @@ class Plugin extends \craft\base\Plugin
         // Resolve the specific FileWriter from the containers with all dependencies
         // and collect them so we can pass them easily to the event handler
         if ($this->getSettings()->generateOnChange || Craft::$app->getRequest()->isConsoleRequest) {
-            $this->fileWriters[] = \Craft::createObject(ElementModelWriter::class);
-            $this->fileWriters[] = \Craft::createObject(PhpstormMetaWriter::class);
-            $this->fileWriters[] = \Craft::createObject(TwigExtensionWriter::class);
+            $this->fileWriters[] = Craft::createObject(ElementModelWriter::class);
+            $this->fileWriters[] = Craft::createObject(PhpstormMetaWriter::class);
+            $this->fileWriters[] = Craft::createObject(TwigExtensionWriter::class);
         }
 
         // Register our Settings Model in the container, so we can
@@ -63,20 +68,19 @@ class Plugin extends \craft\base\Plugin
         $this->set(Settings::class, fn () => $this->getSettings());
     }
 
-
     /**
      * Console commands
      */
     private function registerConsoleCommands(): void
     {
         // Nope
-        if (!Craft::$app->getRequest()->isConsoleRequest) {
+        if (! Craft::$app->getRequest()->isConsoleRequest) {
             return;
         }
 
         $actions = [
             'make' => MakeAction::class,
-            'hint' => HintAction::class
+            'hint' => HintAction::class,
         ];
 
         // Register console commands
@@ -85,7 +89,10 @@ class Plugin extends \craft\base\Plugin
                 ->setActions($actions)
                 ->setDefaultAction('make')
                 ->setOptions(
-                    ['v' => 'verbose', 'f' => 'format']
+                    [
+                        'v' => 'verbose',
+                        'f' => 'format',
+                    ]
                 )
         );
     }
@@ -103,10 +110,5 @@ class Plugin extends \craft\base\Plugin
                 $this->fileWriters
             )
         );
-    }
-
-    protected function createSettingsModel(): Settings
-    {
-        return new Settings();
     }
 }

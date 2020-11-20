@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ostark\Prompter\Repositories\FieldLayout;
 
 class BlockType extends LayoutType
@@ -19,16 +21,16 @@ class BlockType extends LayoutType
         parent::__construct($handle, $fields);
     }
 
+    public function __toString(): string
+    {
+        return $this->getElementTypeClass() . '[]';
+    }
+
     /**
      * The class the dynamic class extends from
      */
     public function getElementBaseClass(): string
     {
         return 'PlainMatrixBlock';
-    }
-
-    public function __toString(): string
-    {
-        return $this->getElementTypeClass() . "[]";
     }
 }
