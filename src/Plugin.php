@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ostark\Prompter;
 
 use Craft;
+use craft\base\Plugin as BasePlugin;
 use craft\services\ProjectConfig;
 use ostark\Prompter\Actions\HintAction;
 use ostark\Prompter\Actions\MakeAction;
@@ -21,7 +22,7 @@ use yii\base\Event;
  *
  * @method Settings getSettings()
  */
-class Plugin extends \craft\base\Plugin
+class Plugin extends BasePlugin
 {
     /**
      * @var FileWriter[]

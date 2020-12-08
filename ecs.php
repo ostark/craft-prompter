@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
-use Symplify\EasyCodingStandard\Configuration\Option;
+use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -33,6 +34,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             LineLengthFixer::LINE_LENGTH => 100,
             LineLengthFixer::INLINE_SHORT_LINES => false,
         ]]);
+
+    $services->set(ReferenceUsedNamesOnlySniff::class)
+        ->property('allowFullyQualifiedGlobalFunctions', true)
+        ->property('allowPartialUses', true);
 
     $parameters->set(Option::SKIP, [
         ExplicitStringVariableFixer::class => null,

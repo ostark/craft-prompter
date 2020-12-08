@@ -1,8 +1,9 @@
 <?php
 
 use ostark\Prompter\Services\TypeHintHelpGenerator;
-use function Spatie\Snapshots\assertMatchesSnapshot;
 use Tests\Mocks\ElementContextRepositoryMock;
+
+uses(\Spatie\Snapshots\MatchesSnapshots::class);
 
 function getGenerator(): TypeHintHelpGenerator
 {
@@ -13,7 +14,7 @@ test(
     'twig output for section type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('twig')->section();
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );
 
@@ -21,7 +22,7 @@ test(
     'twig output for asset type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('twig')->asset();
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );
 
@@ -29,7 +30,7 @@ test(
     'twig output for entry type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('twig')->entry('pest');
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );
 
@@ -38,7 +39,7 @@ test(
     'php output for section type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('php')->section();
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );
 
@@ -46,7 +47,7 @@ test(
     'php output for asset type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('php')->asset();
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );
 
@@ -54,6 +55,6 @@ test(
     'php output for entry type hints',
     function () {
         $twig = getGenerator()->setOutputFormat('php')->entry('pest');
-        assertMatchesSnapshot($twig);
+        $this->assertMatchesSnapshot($twig);
     }
 );

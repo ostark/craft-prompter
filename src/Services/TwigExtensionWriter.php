@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace ostark\Prompter\Services;
 
-use ostark\Prompter\Repositories\ElementContextRepository;
-
 class TwigExtensionWriter implements FileWriter
 {
     public const TARGET_FILE = '.craft.prompter.extension.php';
 
-    private ElementContextRepository $context;
-
     private string $template;
 
-    public function __construct(
-        ElementContextRepository $entryContext
-    ) {
-        $this->context = $entryContext;
+    public function __construct()
+    {
         $this->template = $this->getTwigExtensionTemplate();
     }
 
@@ -35,7 +29,7 @@ class TwigExtensionWriter implements FileWriter
         return file_put_contents(
             $target,
             str_replace(array_keys($vars), array_values($vars), $this->template)
-        );
+        ) === false ? false : true;
     }
 
     private function getTwigExtensionTemplate(): string

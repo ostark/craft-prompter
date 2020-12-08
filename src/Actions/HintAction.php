@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ostark\Prompter\Actions;
 
 use ostark\Prompter\Services\TypeHintHelpGenerator;
-use ostark\Prompter\Settings;
 use ostark\Yii2ArtisanBridge\base\Action;
 use ostark\Yii2ArtisanBridge\base\Commands;
 use yii\console\ExitCode;
@@ -14,22 +13,18 @@ class HintAction extends Action
 {
     public const FORMAT_OPTIONS = ['twig', 'php'];
 
-    public $format = 'twig';
-
-    private Settings $settings;
+    public string $format = 'twig';
 
     private TypeHintHelpGenerator $hints;
 
     public function __construct(
         string $id,
         Commands $controller,
-        Settings $settings,
         TypeHintHelpGenerator $hints,
         $config = []
     ) {
         parent::__construct($id, $controller, $config);
 
-        $this->settings = $settings;
         $this->hints = $hints;
 
         if (! in_array($this->format, self::FORMAT_OPTIONS, true)) {

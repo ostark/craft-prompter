@@ -65,7 +65,7 @@ abstract class LayoutType
 
         $name = static::class;
 
-        foreach ($fields as $fieldHandle => $class) {
+        foreach (array_keys($fields) as $fieldHandle) {
             if (! is_string($fieldHandle)) {
                 throw new InvalidArgumentException(
                     "String expected in [$name], handle [{$this->handle}], type: [" . gettype(

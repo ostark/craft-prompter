@@ -35,7 +35,7 @@ class PhpstormMetaWriter implements FileWriter
         return file_put_contents(
             $target,
             str_replace(array_keys($vars), array_values($vars), $this->template)
-        );
+        ) === false ? false : true;
     }
 
     private function getPhpStormTemplate(): string

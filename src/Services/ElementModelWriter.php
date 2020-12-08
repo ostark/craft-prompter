@@ -89,7 +89,7 @@ class ElementModelWriter implements FileWriter
         }
 
         $target = $path . DIRECTORY_SEPARATOR . self::TARGET_FILE;
-        return file_put_contents($target, implode(PHP_EOL, $parts));
+        return file_put_contents($target, implode(PHP_EOL, $parts)) === false ? false : true;
     }
 
     private function getClassTemplate(): string

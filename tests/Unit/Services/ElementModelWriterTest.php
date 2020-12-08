@@ -2,9 +2,7 @@
 
 use \ostark\Prompter\Services\ElementModelWriter;
 
-use function Spatie\Snapshots\assertMatchesSnapshot;
-
-uses(\Tests\ServiceTestCase::class);
+uses(\Tests\ServiceTestCase::class, \Spatie\Snapshots\MatchesSnapshots::class);
 
 beforeEach(
     function () {
@@ -31,6 +29,6 @@ test(
     function () {
         $this->writer->write($this->path);
         $content = file_get_contents($this->pathToTargetFile);
-        assertMatchesSnapshot($content);
+        $this->assertMatchesSnapshot($content);
     }
 );
